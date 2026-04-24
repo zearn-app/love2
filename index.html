@@ -71,6 +71,24 @@ body {
   to {opacity:1; transform: translateY(0);}
 }
 
+/* TEXT ANIMATION (NEW) */
+.card h2, .card h3, .card p {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: textFade 1s ease forwards;
+}
+
+.card h2 { animation-delay: 0.3s; }
+.card h3 { animation-delay: 0.4s; }
+.card p  { animation-delay: 0.6s; }
+
+@keyframes textFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Input */
 input {
   width: 80%;
@@ -103,6 +121,46 @@ button {
   font-family: 'Pacifico', cursive;
   font-size: 28px;
   color: #ff4d88;
+}
+
+/* IMAGE ANIMATION (NEW) */
+.card img {
+  width: 200px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  animation: floatImg 3s ease-in-out infinite;
+  position: relative;
+}
+
+.card img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(255,77,136,0.4);
+}
+
+@keyframes floatImg {
+  0%,100% {transform: translateY(0);}
+  50% {transform: translateY(-10px);}
+}
+
+/* HANGING HEART (NEW) */
+.img-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.hanging-heart {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 20px;
+  transform-origin: top center;
+  animation: swing 2s infinite ease-in-out;
+}
+
+@keyframes swing {
+  0% {transform: rotate(10deg);}
+  50% {transform: rotate(-10deg);}
+  100% {transform: rotate(10deg);}
 }
 
 /* Gallery */
@@ -161,7 +219,6 @@ button {
 
 <body>
 
-<!-- MUSIC -->
 <audio autoplay loop>
   <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
 </audio>
@@ -187,7 +244,13 @@ button {
 <!-- Story -->
 <div class="page" id="story">
   <div class="card">
-    <img src="pf.jpeg">
+
+    <!-- IMAGE WITH HANGING HEART -->
+    <div class="img-wrap">
+      <img src="pf.jpeg">
+      <div class="hanging-heart">❤️</div>
+    </div>
+
     <h2 class="title">Our Special Story</h2>
     <p class="typewriter">Hey Cutiepie 💖 You are my everything...</p>
     <button onclick="nextPage('anniversary')">Open Our Story</button>
@@ -217,7 +280,7 @@ button {
   </div>
 </div>
 
-<!-- LOVE NOTE -->
+<!-- NOTE -->
 <div class="page" id="note">
   <div class="card">
     <h2 class="title">A Note For You 💖</h2>
@@ -231,7 +294,7 @@ button {
   </div>
 </div>
 
-<!-- FINAL PAGE -->
+<!-- FINAL -->
 <div class="page" id="end">
   <div class="card">
     <h2>Forever & Always 💍</h2>
@@ -244,29 +307,24 @@ button {
 
 <script>
 
-// Page switch
 function nextPage(id) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
-// Loading → Lock
 setTimeout(() => nextPage("lock"), 3000);
 
-// Unlock
 function unlock() {
   const code = document.getElementById("code").value;
   if(code === "143") nextPage("story");
   else alert("Wrong code 😢");
 }
 
-// Anniversary counter
 const startDate = new Date("2023-01-01");
 const today = new Date();
 const diff = Math.floor((today - startDate) / (1000*60*60*24));
 document.getElementById("days").innerText = diff;
 
-// Floating hearts
 setInterval(() => {
   const heart = document.createElement("div");
   heart.className = "heart-float";
@@ -276,7 +334,6 @@ setInterval(() => {
   setTimeout(() => heart.remove(), 6000);
 }, 500);
 
-// Sparkles
 setInterval(() => {
   const s = document.createElement("div");
   s.className = "sparkle";
